@@ -1,0 +1,50 @@
+name: release
+
+on: 
+  push:
+    branches:
+      - main
+env:
+  TARGET_REPO: blog
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps: 
+      - id: create
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          repositories: ${{ env.TARGET_REPO }}
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner}}/${{ env.TARGET_REPO }}  
+          path: ${{ env.TARGET_REPO }}
+          token: ${{ steps.create.outputs.token }} 
+          ref: prd
+
+      - run: | 
+            rm blog/source/contents/*
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner}}/${{ env.TARGET_REPO }}  
+          token: ${{ steps.create.outputs.token }}     
+          path: 'blog/source/contents'  
+      
+      - name: Commit changes in target repository
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: "GitHub Actions"
+          author_email: "actions@github.com"
+          message: "Sync files from source repository"
+          cwd: ${{ env.TARGET_REPO }} 
+  
+      - name: Push changes to target repository
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ steps.create.outputs.token }} 
+          repository: laininthewired/${{ env.TARGET_REPO }} 
+          branch: prd
+          directory: ${{ env.TARGET_REPO }} 
