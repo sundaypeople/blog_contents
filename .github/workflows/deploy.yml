@@ -29,9 +29,10 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner}}/${{ env.TARGET_REPO }}  
-          token: ${{ steps.create.outputs.token }}     
           path: 'blog/source/contents'  
+
+      - run: | 
+          rm blog/source/contents/.github
       
       - name: Commit changes in target repository
         uses: EndBug/add-and-commit@v9
