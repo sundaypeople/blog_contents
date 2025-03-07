@@ -7,7 +7,7 @@ tags: ["docker","container"]
 
 まずはDocker Hubからimageをpullしてみよう
 
-```bash
+```
 docker pull httpd
 ```
 
@@ -15,25 +15,25 @@ docker pull httpd
 
 **以下のコマンドは打たなくていい**
 
-```bash
+```
 docker pull httpd:2.4.57
 ```
 
 など:で区切りtagを付与すると、バージョンの指定などができる。
 
-```bash
+```
 docker create -p 8080:80 --name apache　httpd
 ```
 
 このコマンドは`docker create`でコンテナを生成、`-p`でホストの8080ポートをコンテナの80ポートに繋ぐ([ホストの方を省略すると自動で設定される)](https://knowledge.sakura.ad.jp/13795/)、`—-name`でコンテナにapaheという**名前をつけ**、最後のhttpdがdockerイメージの名前をつけれる。**`--name`** オプションで割り当てなければ、デーモンは**ランダムな文字列から名前を生成**します。
 
-```bash
+```
 docker start apache
 ```
 
 これでapacheというdockerコンテナを立ち上げます。
 
-```bash
+```
 docker exec -it apache bash
 ```
 
@@ -51,19 +51,19 @@ TTYは、*TeleTYpewriter* の略。
 
 以下が略さずに書いた例
 
-```bash
+```
 docker exec --interactive --tty apache bash
 ```
 
 ps使うためにapt install する。
 
-```bash
+```
 apt update && apt install -y procps
 ```
 
 私の場合だと、PIDが92に接続している。
 
-```bash
+```
 root@ee1f3f4f70dc:/usr/local/apache2# ps aufx
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root        92  0.2  0.0   3824  3128 pts/0    Ss   11:09   0:00 bash
@@ -81,7 +81,7 @@ www-data    10  0.0  0.0 1998448 2900 ?        Sl   11:09   0:00 httpd -DFOREGRO
     `ps auxf`(オプションの順番に意味はない) 操作端末のプロセスを表示し(`a`)、端末操作意外のプロセスを表示すし(`x`)、プロセスを改装で表示し(`f`)、CPUやメモリの使用率なども表示する(`u`)ということ。
     
 
-```bash
+```
 exit
 ```
 
@@ -89,7 +89,7 @@ exit
 
 他にも、
 
-```bash
+```
 docker attach apache
 ```
 
@@ -97,19 +97,19 @@ docker attach はPIDが1のところに標準入出力が接続される。そ�
 
 httpdの場合、上のプロセス表のように**PID1がhttpdデーモン**(httpd 0DFOREGRAND)になっているため、コマンドを打っても**bashに繋がらず、操作できない。**
 
-```bash
+```
 docker ps
 ```
 
 で現在**稼働しているコンテナの一覧**を表示することができる。
 
-```bash
+```
 docker ps -a
 ```
 
 で**現在存在しているコンテナ一覧**を表示
 
-```bash
+```
 docker images
 ```
 
@@ -132,7 +132,7 @@ docker images
     ```
     
 
-```bash
+```
 docker run -d  -p 8080:80 --name apache2 httpd
 ```
 
@@ -140,7 +140,7 @@ docker run -d  -p 8080:80 --name apache2 httpd
 
 最後にdockerで何かトラブルが起きたら（立ち上がらないなど）、
 
-```bash
+```
 docker logs apache
 ```
 
@@ -152,25 +152,25 @@ docker logs apache
 
 ---
 
-```bash
+```
 docker commit apache apacheps
 ```
 
 これで、psをインストールした状態のイメージが生成できる.
 
-```bash
+```
 docker run -d --name apacheps apacheps 
 ```
 
 でdockerコンテナを作成、起動
 
-```bash
+```
 docker exec apacheps
 ```
 
 で中にはいいて、
 
-```bash
+```
 ps aufx
 ```
 
@@ -178,19 +178,19 @@ ps aufx
 
 ## docker hubに上げてみる
 
-```bash
+```
 docker login
 ```
 
 でdocker hubにログイン
 
-```bash
+```
 docker tag apacheps soyokaze0125/apacheps:test
 ```
 
 docker tag [元のイメージの名前] [docker hubアカウント]/[イメージ名]:タグ
 
-```bash
+```
 docker push soyokaze0125/apacheps:test
 ```
 
@@ -198,13 +198,13 @@ docker push soyokaze0125/apacheps:test
 
 ## docker image を消す
 
-```bash
+```
 docker stop apacheps
 ```
 
 でapchepsコンテナを止める
 
-```bash
+```
 docker rm apacheps
 ```
 
@@ -212,7 +212,7 @@ docker rm apacheps
 
 ただしイメージは残っているので、ストレージ圧迫の原因になる。
 
-```bash
+```
 docker rmi apacheps
 ```
 
