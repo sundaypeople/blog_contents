@@ -1,0 +1,17 @@
+name: Check Markdown YAML Frontmatter in posts
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-md:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run Markdown YAML Frontmatter Check
+        run: bash .github/scripts/check_md_yml.sh
