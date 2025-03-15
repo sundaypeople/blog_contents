@@ -6,11 +6,11 @@ tags: ["docker","container"]
 
 docker compose はコンテナを一斉に操作できるツール。
 
-docker compose(docker-compose は非推奨) というコマンドを使えば、yamlファイルを使って、複数のコンテナを立ち上げたり操作したりできるようになる。
+docker compose(docker-composeは非推奨) というコマンドを使えば、yamlファイルを使って、複数のコンテナを立ち上げたり操作したりできるようになる。
 
 docker compsoe では作業ディレクトリがそのままプロジェクト名になる。なお、**このプロジェクト名に紐付いてネットワーク名やボリューム名も管理される**。
 
-## docker-compose.yamlの読み方
+## docker compose.yamlの読み方
 
 ```yaml
 version: '3'
@@ -37,7 +37,7 @@ services:
 `docker compose up -d`でプロジェクトを立ち上げる(-dはバックグラウンドで動く)
 
 ```
-$ docker-compose up -d
+$ docker compose up -d
 Creating network "dockerhttpd_default" with the default driver
 Creating dockerhttpd_web_1 ... done
 
@@ -56,7 +56,7 @@ Creating dockerhttpd_web_1 ... done
 それから、サービスが実行中かどうかはd`ocker-compose ps`コマンドを使います。
 
 ```
-$ docker-compose ps
+$ docker compose ps
       Name              Command        State          Ports
 -------------------------------------------------------------------
 dockerhttpd_web_1   httpd-foreground   Up      0.0.0.0:8080->80/tcp
@@ -66,10 +66,10 @@ dockerhttpd_web_1   httpd-foreground   Up      0.0.0.0:8080->80/tcp
 
 ## **起動したサービスを停止する**
 
-一旦起動したサービスは停止したり、再起動したりできます。停止するには「docker-compose stop」です。
+一旦起動したサービスは停止したり、再起動したりできます。停止するには「docker compose stop」です。
 
 ```
-$ docker-compose stop
+$ docker compose stop
 Stopping dockerhttpd_web_1 ... done
 
 ```
@@ -78,7 +78,7 @@ Stopping dockerhttpd_web_1 ... done
 
 ## **サービスのデバッグ**
 
-サービスが実行中の場合、コンテナ内で操作することができます。サービスとして実行中のコンテナに対し、プロセスを追加するには「docker-compose exec <サービス名> <コマンド>」を実行します。
+サービスが実行中の場合、コンテナ内で操作することができます。サービスとして実行中のコンテナに対し、プロセスを追加するには「docker compose exec <サービス名> <コマンド>」を実行します。
 
 今回は「web」というサービスを実行中です。このコンテナ内に「/bin/bash」プロセスを追加するには、次のように実行します。
 
@@ -94,10 +94,10 @@ bash-5.0#
 
 ## **サービスの終了・削除**
 
-使わなくなったサービスは終了・削除します。このとき、１つ１つ「docker kill」コマンドなどで止める必要がありません。「docker-compose down」コマンドを使うと、Dockerイメージの停止・削除と、このプロジェクトが使用するブリッジ・ネットワークも自動削除します。
+使わなくなったサービスは終了・削除します。このとき、１つ１つ「docker kill」コマンドなどで止める必要がありません。「docker compose down」コマンドを使うと、Dockerイメージの停止・削除と、このプロジェクトが使用するブリッジ・ネットワークも自動削除します。
 
 ```
-$ docker-compose down -v
+$ docker compose down -v
 Stopping dockerhttpd_web_1 ... done
 Removing dockerhttpd_web_1 ... done
 Removing network dockerhttpd_default
@@ -108,4 +108,4 @@ Removing network dockerhttpd_default
 
 [Docker Compose入門 (1) ～アプリケーションをコンテナで簡単に扱うためのツール～  |  さくらのナレッジ](https://knowledge.sakura.ad.jp/21387/)
 
-[docker-compose と docker サブコマンドの compose って結局どっち使えばいいのかという話 - おおくまねこ](https://www.maigo-name.tokyo/entry/2021/07/24/231528)
+[docker compose と docker サブコマンドの compose って結局どっち使えばいいのかという話 - おおくまねこ](https://www.maigo-name.tokyo/entry/2021/07/24/231528)
