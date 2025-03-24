@@ -49,6 +49,6 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ steps.create.outputs.token }} 
-          repository: laininthewired/${{ env.TARGET_REPO }} 
+          repository: ${{ github.repository_owner}}/${{ env.TARGET_REPO }} 
           branch: prd
           directory: ${{ env.TARGET_REPO }} 
