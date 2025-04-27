@@ -29,6 +29,7 @@ jobs:
 
       - run: | 
             rm -r blog/source/contents/*
+            rm -r blog/source/public/images/*
 
       - uses: actions/checkout@v4
         with:
@@ -36,6 +37,7 @@ jobs:
 
       - run: | 
           rm -r blog/source/contents/.github
+          mv blog/source/contents/images blog/source/public
       
       - name: Commit changes in target repository
         uses: EndBug/add-and-commit@v9
